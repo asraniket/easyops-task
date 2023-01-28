@@ -35,27 +35,34 @@ $(document).ready(function() {
   
 	//search by name
 	$("#search-button").click(function(){
-		var searchTerm = $("#search").val().toLowerCase();
-		$("#table-body tr").filter(function() {
-		  $(this).toggle($(this).text().toLowerCase().indexOf(searchTerm) > -1);
-		});
-		$("#table-body tr").filter(function() {
-		  $(this).find("td").each(function(){
-			$(this).removeClass("highlight");
-		  });
-		  $(this).find("td:contains('"+searchTerm+"')").addClass("highlight");
-		});
-	});
+        var searchTerm = $("#search").val().toLowerCase();
+        $("#table-body tr").filter(function() {
+            if($(this).find("td:first-child").text().toLowerCase().indexOf(searchTerm) > -1){
+                $(this).show();
+                $(this).find("td:first-child").addClass("highlight");
+            }
+            
+        });
+    });
+
 
 	  
 	
   
 	//delete button
 	$("#table-body").on("click", ".delete-btn", function() {
-		var confirmDelete = confirm("Are you sure you want to delete this contact?");
-		if(confirmDelete) {
-			$(this).closest('tr').remove();
+	  let name = $(this).closest('tr').find('td:first-child').text();
+	  let phone = $(this).closest('tr').find('td:nth-child(2)').text();
+	  if(confirm("Are you sure you want to delete this contact?")) {
+		for(var i = 0; i < people.length; i++) {
+			if(people[i].name == name && people[i].phone == phone) {
+				people.splice(i, 1);
+				break;
+			}
 		}
+		$(this).closest('tr').remove();
+		alert("Contact has been deleted.");
+	  }
 	});
   
 	//sort by name
