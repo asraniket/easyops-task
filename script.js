@@ -52,14 +52,10 @@ $(document).ready(function() {
   
 	//delete button
 	$("#table-body").on("click", ".delete-btn", function() {
-	  let name = $(this).data("name");
-	  let phone = $(this).data("phone");
-	  let person = people.find(person => person.name === name && person.phone === phone);
-	  let index = people.indexOf(person);
-	  if (confirm(`Are you sure you want to delete ${name}`)) {
-		people.splice(index, 1);
-		populateTable();
-	  }
+		var confirmDelete = confirm("Are you sure you want to delete this contact?");
+		if(confirmDelete) {
+			$(this).closest('tr').remove();
+		}
 	});
   
 	//sort by name
